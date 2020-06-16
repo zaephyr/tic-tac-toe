@@ -1,0 +1,100 @@
+* {
+    font-size: 62.5%;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+}
+.playersAndScores {
+    padding-top: 2rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    color: #4b4b4b;
+}
+
+.player {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 3rem;
+}
+
+.btn {
+    padding: 1rem;
+    margin: 2px;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.btn:active {
+    transform: scale(0.95, 1);
+    transition: 0.3s;
+}
+.btn:focus {
+    outline: none;
+}
+
+#start {
+    color: #ffcccc;
+    background-color: #4b4b4b;
+    border: 2px solid #ffcccc;
+    border-radius: 2rem;
+}
+
+#reset {
+    color: #4b4b4b;
+    background-color: #32ff7e;
+    border: 2px solid #ffcccc;
+    border-radius: 2rem;
+}
+
+.scores {
+    margin: 1rem 10rem;
+    font-size: 4.5rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.score {
+    font-size: 7rem;
+}
+
+.msg-display {
+    width: 30rem;
+    text-align: center;
+}
+
+#gameboard {
+    font-family: 'Montserrat', sans-serif;
+    display: grid;
+    margin-top: 5rem;
+    height: 35rem;
+    width: 35rem;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+
+    align-self: center;
+}
+
+.square {
+    color: #7d5fff;
+    background-color: #7efff5;
+    border: 1px solid #4b4b4b;
+    text-align: center;
+    font-size: 9rem;
+}
+
+.square:hover {
+    transition: 0.3s;
+}
+
+/* .square:active {
+} */

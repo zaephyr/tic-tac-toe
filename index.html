@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css" />
+        <title>Tic Tac Toe</title>
+    </head>
+    <body>
+        <div class="playersAndScores">
+            <div class="player">
+                <div>
+                    player 1:
+                    <input id="p1" type="text" size="14" maxlength="14"/> </br>
+                    <!-- <div class="radio">
+                        <input checked type="radio" id="X" name="ox" value="X" /> <label for="X">X</label><br />
+                        <input type="radio" id="O" name="ox" value="O" />
+                        <label for="O">O</label><br />
+                    </div> -->
+                </div>
+                <div>
+                    <button class="btn" id="start">START NEW GAME</button>
+                    <button class="btn" id="reset">RELOAD BOARD</button>
+                </div>
+                <div>
+                    <input id="p2" type="text" size="14" maxlength="14"/>
+                    : player 2
+                </div>
+            </div>
+            <div class="scores">
+                <div id="score1" class="score">0</div>
+                <div class="msg-display"></div>
+                <div id="score2" class="score">0</div>
+            </div>           
+        </div>
+        <div id="gameboard">
+            <div class="square" id="0"></div>
+            <div class="square" id="1"></div>
+            <div class="square" id="2"></div>
+            <div class="square" id="3"></div>
+            <div class="square" id="4"></div>
+            <div class="square" id="5"></div>
+            <div class="square" id="6"></div>
+            <div class="square" id="7"></div>
+            <div class="square" id="8"></div>
+        </div>
+    </body>
+    <script src="index.js"></script>
+</html>
