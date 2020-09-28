@@ -1,4 +1,8 @@
+let playingVsComputer = false;
+let winner = false;
+
 const startGame = () => {
+    playingVsComputer = false;
     const player1 = document.getElementById('p1');
     const player2 = document.getElementById('p2');
     if (player1.value == '') player1.value = 'player1';
@@ -8,8 +12,6 @@ const startGame = () => {
     ps1.textContent = 0;
     const ps2 = document.getElementById('score2');
     ps2.textContent = 0;
-
-    console.log('set players');
 
     clearBoard();
 
@@ -21,6 +23,12 @@ const startGame = () => {
 
     setPlayers.playerX.name = player1.value;
     setPlayers.playerO.name = player2.value;
+};
+
+const vsComputer = () => {
+    startGame();
+    document.getElementById('p2').value = 'Computer';
+    playingVsComputer = true;
 };
 
 const winCondition = (xo, arr) => {
@@ -39,7 +47,6 @@ const winCondition = (xo, arr) => {
         diagonalRight: [arr[2], arr[4], arr[6]],
     };
 
-    let winner = false;
     for (const key in allConditions) {
         const players = [setPlayers.playerX, setPlayers.playerO];
         if (allConditions[key].every((el) => el == xo)) {
@@ -47,7 +54,6 @@ const winCondition = (xo, arr) => {
                 if (players[i].xo == xo) {
                     const winP = players[i];
                     winP.score += 1;
-                    console.log(winP);
                     winner = true;
                     display.textContent = `The winner is: ${winP.name}`;
                     clickEvent.listenerEnder();
@@ -64,7 +70,7 @@ const winCondition = (xo, arr) => {
             }
         }
     }
-    if (!Gameboard.gameboardArr.some((el) => el == '')) {
+    if (!gameboardArr.some((el) => el == '')) {
         if (!winner) {
             clickEvent.listenerEnder();
             display.textContent = 'We have a tie!';
@@ -83,28 +89,33 @@ const setPlayers = (() => {
     return { playerX, playerO };
 })();
 
-const Gameboard = (() => {
-    let gameboardArr = ['', '', '', '', '', '', '', '', ''];
-
-    return { gameboardArr };
-})();
-
-const clearBoard = () => {
-    const square = document.querySelectorAll('.square');
-    const gameArr = Gameboard.gameboardArr;
-    for (let i = 0; i < gameArr.length; i++) {
-        gameArr[i] = '';
-    }
-    square.forEach((el) => (el.textContent = ''));
-
-    clickEvent.listenerStarter();
-};
-
+let gameboardArr = ['', '', '', '', '', '', '', '', ''];
 const playTurn = (() => {
     let xTurn = 0;
     let oTurn = 0;
     return { oTurn, xTurn };
 })();
+
+const clearBoard = () => {
+    const square = document.querySelectorAll('.square');
+    for (let i = 0; i < gameboardArr.length; i++) {
+        gameboardArr[i] = '';
+    }
+    square.forEach((el) => (el.textContent = ''));
+    if (playingVsComputer) {
+        winner = false;
+        playTurn.xTurn = 0;
+        playTurn.oTurn = 0;
+    }
+
+    clickEvent.listenerStarter();
+};
+
+const getAllEmptyCells = (arr, val) => {
+    let indexes = [];
+    for (let i = 0; i < arr.length; i++) if (arr[i] === val) indexes.push(i);
+    return indexes;
+};
 
 const playRound = (e) => {
     const click = e.target;
@@ -113,28 +124,37 @@ const playRound = (e) => {
 
     if (click.textContent == '')
         if (playTurn.xTurn == playTurn.oTurn) {
-            Gameboard.gameboardArr.splice(click.id, 1, playerX.xo);
+            gameboardArr.splice(click.id, 1, playerX.xo);
             click.textContent = playerX.xo;
             playTurn.xTurn += 1;
-            // console.log(playerX);
-            winCondition(playerX.xo, Gameboard.gameboardArr);
+            winCondition(playerX.xo, gameboardArr);
+            if (playingVsComputer && !winner) {
+                let indexes = getAllEmptyCells(gameboardArr, '');
+                let pick = Math.floor(Math.random() * indexes.length);
+
+                gameboardArr.splice(indexes[pick], 1, playerO.xo);
+                playTurn.oTurn += 1;
+                document.getElementById(indexes[pick]).textContent = playerO.xo;
+                winCondition(playerO.xo, gameboardArr);
+            }
         } else {
-            Gameboard.gameboardArr.splice(click.id, 1, playerO.xo);
+            gameboardArr.splice(click.id, 1, playerO.xo);
             click.textContent = playerO.xo;
             playTurn.oTurn += 1;
-            // console.log(playerO);
-            winCondition(playerO.xo, Gameboard.gameboardArr);
+            winCondition(playerO.xo, gameboardArr);
         }
 };
 
 const clickEvent = (() => {
     const start = document.getElementById('start');
     const reset = document.getElementById('reset');
+    const vsAI = document.getElementById('comp');
 
     const square = document.querySelectorAll('.square');
 
     start.addEventListener('click', startGame);
     reset.addEventListener('click', clearBoard);
+    vsAI.addEventListener('click', vsComputer);
 
     const listenerStarter = () => {
         const display = document.querySelector('.msg-display');
